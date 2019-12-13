@@ -6,22 +6,31 @@ import PhotoContainer from "./components/photoContainer/photoContainer.component
 import { Switch, Route, Redirect } from "react-router-dom";
 import FormInput from "./components/form/form.component";
 import Parallax from "./components/parallax/parallax.component";
+import { withRouter } from "react-router";
+import { selectHideSelector } from "./redux/hideAndShow/hideAndShow.selector";
+import { createStructuredSelector } from "reselect";
 
 class App extends React.Component {
   componentDidMount() {
+    console.log("=====================")
     fetch("https://jsonplaceholder.typicode.com/photos")
       .then(response => response.json())
       .then(photos => this.props.triggerSetPhotos(photos));
   }
 
   render() {
+    console.log(this.props.hideOrNot);
     return (
-      <div className="myapp">
-        <div className="row">
-          <div className="col-sm">
-            <h1 className="sample">Feelgood</h1>
+      <div>
+        {this.props.hideOrNot === true ? (
+          <div className="myapp">
+            <div className="row">
+              <div className="col-sm">
+                <h1 className="sample">Feelgood</h1>
+              </div>
+            </div>
           </div>
-        </div>
+        ) : null}
 
         <Switch>
           <Route exact path="/" component={Home} />
@@ -52,4 +61,7 @@ const mapDispatchToProps = dispatch => ({
   triggerSetPhotos: photos => dispatch(getPhotos(photos))
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = createStructuredSelector({
+  hideOrNot: selectHideSelector
+});
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
