@@ -1,13 +1,9 @@
 import React from "react";
 import "./parallax.styles.scss";
 import { Controller, Scene } from "react-scrollmagic";
-import { connect } from "react-redux";
-import {hide } from '../../redux/hideAndShow/hideAndShow.actions'
-const Parallax = ({triggerhideOrNot}) => (
-  
-  
+
+const Parallax = () => (
   <div>
-    <button onClick={triggerhideOrNot}>click me</button>
     <header>
       <h1>Parallax</h1>
     </header>
@@ -62,10 +58,4 @@ const Parallax = ({triggerhideOrNot}) => (
   </div>
 );
 
-const mapDispatchToProps = dispatch => ({
-  triggerhideOrNot: () => dispatch(hide())
-});
-// const mapStateToProps = state => ({
-//   hideOrNot: true
-// });
-export default connect(null,mapDispatchToProps)(Parallax);
+export default Parallax;

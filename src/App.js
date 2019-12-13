@@ -3,7 +3,7 @@ import "./App.scss";
 import { connect } from "react-redux";
 import { getPhotos } from "./redux/photos/photo.actions";
 import PhotoContainer from "./components/photoContainer/photoContainer.component";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import FormInput from "./components/form/form.component";
 import Parallax from "./components/parallax/parallax.component";
 import { withRouter } from "react-router";
@@ -12,17 +12,15 @@ import { createStructuredSelector } from "reselect";
 
 class App extends React.Component {
   componentDidMount() {
-    console.log("=====================")
     fetch("https://jsonplaceholder.typicode.com/photos")
       .then(response => response.json())
       .then(photos => this.props.triggerSetPhotos(photos));
   }
 
   render() {
-    console.log(this.props.hideOrNot);
     return (
       <div>
-        {this.props.hideOrNot === true ? (
+        {this.props.location.pathname !== "/parallax" ? (
           <div className="myapp">
             <div className="row">
               <div className="col-sm">
@@ -61,7 +59,4 @@ const mapDispatchToProps = dispatch => ({
   triggerSetPhotos: photos => dispatch(getPhotos(photos))
 });
 
-const mapStateToProps = createStructuredSelector({
-  hideOrNot: selectHideSelector
-});
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(null, mapDispatchToProps)(App));
