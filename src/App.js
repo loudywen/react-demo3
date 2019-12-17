@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getPhotos } from "./redux/photos/photo.actions";
 import PhotoContainer from "./components/photoContainer/photoContainer.component";
 import { Switch, Route } from "react-router-dom";
-import FormInput from "./components/form/form.component";
+import FormInputContainer from "./components/form/form.component";
 import Parallax from "./components/parallax/parallax.component";
 import { withRouter } from "react-router";
 import { selectHideSelector } from "./redux/hideAndShow/hideAndShow.selector";
@@ -32,7 +32,7 @@ class App extends React.Component {
 
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/form" component={FormInput} />
+          <Route path="/form" component={FormInputContainer} />
 
           <Route exact path="/cards" component={PhotoContainer} />
           <Route path="/cards/home2" component={Home2} />
