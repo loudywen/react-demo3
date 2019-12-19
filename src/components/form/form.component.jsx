@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import FormInput from "./formInput.component";
 import "./sign-in.styles.scss";
 import DisplayAll from './displayall.component';
+import Editable from './editable.component'
+
 
 const FormInputContainer = () => {
   const handleSubmit = event => {
+    event.preventDefault();
+
     console.log("on submit");
   };
 
@@ -39,10 +43,13 @@ const FormInputContainer = () => {
             label="description"
             required
           />
+          <button>click me</button>
         </form>
       </div>
 
-      <DisplayAll />
+      {/* <DisplayAll /> */}
+
+      <Editable />
     </div>
   );
 };
