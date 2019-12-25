@@ -2,14 +2,37 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./editable.styles.scss";
 import MaterialTable from "material-table";
+import * as icons from "@material-ui/icons";
+import TestDialog from "../dialog/testdialog.component";
 
-const Editable = () => {
+const Editable2 = () => {
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  const handleClickOpen = (rowData) => {
+    setOpen(true);
+    setSelectedValue(rowData)
+  };
+
+  const handleUpdate = value => {
+    setOpen(false);
+    //setSelectedValue(value);
+  };
+
   const [tableState, setTableState] = useState({
     columns: [
       { title: "CountryCode", field: "countryCode", editable: "never" },
       { title: "Description", field: "countryCodeDesc" }
     ],
-    data: [{countryCode: "cc", countryCodeDesc: "test"}]
+    data: [
+      { countryCode: "cc", countryCodeDesc: "test" },
+      { countryCode: "22", countryCodeDesc: "test" },
+      { countryCode: "df", countryCodeDesc: "test" },
+      { countryCode: "ad", countryCodeDesc: "test" },
+      { countryCode: "df", countryCodeDesc: "test" },
+      { countryCode: "ff", countryCodeDesc: "test" },
+      { countryCode: "gg", countryCodeDesc: "test" }
+    ]
   });
 
   const callApi = () => {
@@ -71,47 +94,29 @@ const Editable = () => {
           title="CountryCode"
           columns={tableState.columns}
           data={tableState.data}
-          editable={{
-            onRowUpdate: (newData, oldData) =>
-              new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  if (oldData) {
-                    const { countryCode, countryCodeDesc } = newData;
-
-                    const putRequest = {
-                      countryCodeDesc: countryCodeDesc,
-                      lastUpdatedBy: "diwen test from ui"
-                    };
-
-                    console.log(putRequest);
-                    // once status = 200 then set below
-                    // callPut(countryCode, putRequest, oldData, newData);
-
-                    setTableState(prevState => {
-                      const data = [...prevState.data];
-                      data[data.indexOf(oldData)] = newData;
-                      return { ...prevState, data };
-                    });
-                  }
-                }, 600);
-              }),
-            onRowDelete: oldData =>
-              new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  setTableState(prevState => {
-                    const data = [...prevState.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              })
-          }}
+          //
+          actions={[
+            {
+              icon: icons.Edit,
+              tooltip: "Edit",
+              onClick: (event, rowData) => {
+                //console.log(rowData);
+                handleClickOpen(rowData);
+              }
+            },
+            {
+              icon: icons.DeleteOutlined,
+              tooltip: "Delete",
+              onClick: (event, rowData) =>
+                alert("You want to delete " + rowData.name)
+            }
+          ]}
         />
       ) : null}
+
+      <TestDialog open={open} onUpdate={handleUpdate} selectedValue={selectedValue}/>
     </div>
   );
 };
 
-export default Editable;
+export default Editable2;

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import FormInput from "./formInput.component";
 import "./sign-in.styles.scss";
-import DisplayAll from './displayall.component';
-import Editable from './editable.component'
-
+import DisplayAll from "./displayall.component";
+import Editable from "./editable.component";
+import Editable2 from "./editable2.component";
+import TestStack from "../teststack/testStack.component";
 
 const FormInputContainer = () => {
   const handleSubmit = event => {
@@ -50,6 +51,8 @@ const FormInputContainer = () => {
       {/* <DisplayAll /> */}
 
       <Editable />
+      <Editable2 />
+      <TestStack />
     </div>
   );
 };
