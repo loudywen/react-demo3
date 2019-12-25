@@ -9,6 +9,8 @@ import Parallax from "./components/parallax/parallax.component";
 import { withRouter } from "react-router";
 import { selectHideSelector } from "./redux/hideAndShow/hideAndShow.selector";
 import { createStructuredSelector } from "reselect";
+import TestLayout from './components/layout/TestLayout.component'
+import { BrowserRouter } from "react-router-dom";
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,6 +21,8 @@ class App extends React.Component {
 
   render() {
     return (
+      <BrowserRouter>
+
       <div>
         {this.props.location.pathname !== "/parallax" ? (
           <div className="myapp">
@@ -37,8 +41,11 @@ class App extends React.Component {
           <Route exact path="/cards" component={PhotoContainer} />
           <Route path="/cards/home2" component={Home2} />
           <Route path="/parallax" component={Parallax} />
+          <Route exact path="/testlayout" component={TestLayout} />
+
         </Switch>
       </div>
+      </BrowserRouter>
     );
   }
 }

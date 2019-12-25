@@ -13,7 +13,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 const styles = {
   root: {
     //color: "yellow",
-    backgroundColor: "rgb(10,0,0,0.5)"
+    backgroundColor: "rgb(0,0,0,0.5)"
   },
   dialogContent: {
     textAlign: "center"
