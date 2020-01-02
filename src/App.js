@@ -9,8 +9,9 @@ import Parallax from "./components/parallax/parallax.component";
 import { withRouter } from "react-router";
 import { selectHideSelector } from "./redux/hideAndShow/hideAndShow.selector";
 import { createStructuredSelector } from "reselect";
-import TestLayout from './components/layout/TestLayout.component'
+import TestLayout from "./components/layout/TestLayout.component";
 import { BrowserRouter } from "react-router-dom";
+import WebSocket from "./components/websocket/chat.component";
 
 class App extends React.Component {
   componentDidMount() {
@@ -22,29 +23,28 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-
-      <div>
-        {this.props.location.pathname !== "/parallax" ? (
-          <div className="myapp">
-            <div className="row">
-              <div className="col-sm">
-                <h1 className="sample">Feelgood</h1>
+        <div>
+          {this.props.location.pathname !== "/parallax" ? (
+            <div className="myapp">
+              <div className="row">
+                <div className="col-sm">
+                  <h1 className="sample">Feelgood</h1>
+                </div>
               </div>
             </div>
-          </div>
-        ) : null}
+          ) : null}
 
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/form" component={FormInputContainer} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/form" component={FormInputContainer} />
 
-          <Route exact path="/cards" component={PhotoContainer} />
-          <Route path="/cards/home2" component={Home2} />
-          <Route path="/parallax" component={Parallax} />
-          <Route exact path="/testlayout" component={TestLayout} />
-
-        </Switch>
-      </div>
+            <Route exact path="/cards" component={PhotoContainer} />
+            <Route path="/cards/home2" component={Home2} />
+            <Route path="/parallax" component={Parallax} />
+            <Route  path="/testlayout" component={TestLayout} />
+            <Route exact path="/websocket" component={WebSocket} />
+          </Switch>
+        </div>
       </BrowserRouter>
     );
   }

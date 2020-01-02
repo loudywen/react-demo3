@@ -4,12 +4,10 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import "./TestLayout.styles.scss";
-import { Switch, Route } from "react-router-dom";
 import FormInputContainer from "../form/form.component";
 import Parallax from "../parallax/parallax.component";
 import PhotoContainer from "../photoContainer/photoContainer.component";
-import { withRouter } from "react-router";
-import { BrowserRouter } from "react-router-dom";
+import { withRouter, Switch, Route, Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TestLayout = () => {
+const TestLayout = ({ match, location }) => {
   const classes = useStyles();
 
   return (
@@ -58,12 +56,11 @@ const TestLayout = () => {
             <div className="contentRoot">
               content <br></br>
               <Switch>
-                <Route  key="dd" exact path="/testlayout/form" component={FormInputContainer} />
+                <Route  exact path={`${match.path}/form`} component={FormInputContainer} />
 
-                <Route  path="/testlayout/cards" component={PhotoContainer} />
-                <Route  path="/testlayout/parallax" component={Parallax} />
+                <Route  exact path={`${match.path}/cards`} component={PhotoContainer} />
+                <Route  exact path={`${match.path}/parallax`} component={Parallax} />
               </Switch>
-              <PhotoContainer />
             </div>
           </Paper>
         </Grid>
