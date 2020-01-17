@@ -18,7 +18,6 @@ const TestStack = () => {
         <Backdrop
           className="mybackdrop"
           open={open}
-          style={{ backgroundColor: "rgba(0 0, 0, 0.5)" }}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
