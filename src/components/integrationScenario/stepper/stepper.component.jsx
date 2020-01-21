@@ -32,7 +32,7 @@ const MyStepper = ({currentStep}) => {
     //   console.log("temp", temp);
     return (
         <div>
-            <span>my stepper {currentStep}</span>
+            {/*<span>my stepper {currentStep}</span>*/}
             <div className={classes.root}>
                 <Stepper activeStep={currentStep}>
                     {Steps.map((obj, index) => {

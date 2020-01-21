@@ -1,13 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import StepperAction from "../../integrationScenario/stepperAction/stepper.action.component";
 import {connect} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import AddHop from "./add.hop.component";
-import Grid from '@material-ui/core/Grid';
-import Paper from "@material-ui/core/Paper";
 import Hop from "./hop.component";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = makeStyles(theme => ({
     parent: {
@@ -21,6 +20,10 @@ const styles = makeStyles(theme => ({
     button1: {
         marginRight: theme.spacing(1),
         width: "150px"
+    },
+    fab: {
+        width: 35,
+        height: 35
     },
     hopContainer: {
         border: "green solid",
@@ -45,67 +48,92 @@ const styles = makeStyles(theme => ({
 }));
 
 
-const Dummy2 = ({currentStep, btnDesc}) => {
-        const [spinner, setSpinner] = useState(false);
-        const [openHopSelector, setOpenHopSelector] = useState(false);
-        const [currentIndex, setCurrentIndex] = useState(0)
-        const [hops, setHops] = useState([]);
-        const classes = styles();
+const RouteBuilder = ({currentStep, btnDesc}) => {
+    const [openHopSelector, setOpenHopSelector] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [hops, setHops] = useState([]);
+    const classes = styles();
 
-        const febOnClick = (event, index) => {
-            setOpenHopSelector(true)
-            setCurrentIndex(index)
-        }
+    const febOnClick = (event, index) => {
+        setOpenHopSelector(true);
+        setCurrentIndex(index)
+    };
 
-        const closeHopSelector = () => {
-            setOpenHopSelector(false)
-        }
+    const closeHopSelector = () => {
+        setOpenHopSelector(false)
+    };
 
-        const addAfter = (array, index, newItem) => {
-            console.log("index", index)
-            console.log("old array", array)
-            const copy = [...array];
-            copy.splice(index + 1, 0, newItem);
-            console.log("new array", copy)
-            return (copy)
+    const addAfter = (array, index, newItem) => {
+        // console.log("index", index);
+        // console.log("old array", array);
+        const copy = [...array];
+        copy.splice(index + 1, 0, newItem);
+        // console.log("new array", copy);
+        return (copy)
+    };
 
-        }
+    const setSelectedHop = (obj) => {
+        setHops(oldArray =>
+            (currentIndex === 0 && hops.length === 0) ? [...oldArray, obj] : addAfter(oldArray, currentIndex, obj))
+    };
 
-        const setSelectedHop = (obj) => {
-            setHops(oldArray =>
-                (currentIndex === 0 && hops.length === 0) ? [...oldArray, obj] : addAfter(oldArray, currentIndex, obj))
-        }
+    const updateHopService = (obj) => {
+        const newHops = [...hops];
+        const index = newHops.findIndex(hop => hop.hopName === obj.hopName && hop.hopType === obj.hopType);
+        newHops[index] = obj;
+        setHops(newHops)
+    };
 
-        const dummyFn = () => {
-            if (currentStep === 4) {
-                setSpinner(true);
-            } else {
-                console.log("Done dummy2 Function");
-            }
-        };
+    const configService = () => {
 
-        const showHops =
-            hops.map((obj, index) => (
-                    <div className={classes.hop} key={index}>
-                        <Hop hop={obj}/>
-                        <Fab color="primary" aria-label="add"
+    }
+
+
+    const dummyFn = () => {
+        console.log("Done dummy2 Function");
+    };
+
+    const deleteHop = (index) => {
+        // console.log("delete index", index);
+        let temp = [...hops];
+        temp.splice(index, 1);
+        // console.log("delete temp", temp);
+        setHops([...temp])
+    };
+
+    const showHops =
+        hops.map((obj, index) => (
+                <div className={classes.hop} key={index}>
+                    {/*HOP Component*/}
+                    <Hop hop={obj} deleteHop={() => deleteHop(index)} updateHopService={updateHopService}
+                         configService={configService}/>
+
+                    <Tooltip title="Add Hop" arrow>
+                        <Fab className={classes.fab} color="primary" aria-label="add"
                              onClick={(event) => febOnClick(event, index)}>
                             <AddIcon/>
                         </Fab>
-                    </div>
-                )
+                    </Tooltip>
+
+                </div>
             )
+        );
 
         return (
             <div className={classes.parent}>
                 <p> Dummy2</p>
                 {openHopSelector ?
-                    <AddHop open={openHopSelector} cancel={closeHopSelector} selectedHop={setSelectedHop}/> : null}
+                    <AddHop open={openHopSelector} cancel={closeHopSelector} selectedHop={setSelectedHop}
+                            currentHops={hops}/> : null}
 
                 {hops.length === 0 ? (
-                    <Fab color="primary" aria-label="add" onClick={(event) => febOnClick(event, 0)}>
-                        <AddIcon/>
-                    </Fab>
+                    <Tooltip title="Add Hop" arrow>
+                        <Fab className={classes.fab} color="primary" aria-label="add"
+                             onClick={(event) => febOnClick(event, 0)}>
+                            <AddIcon/>
+                        </Fab>
+                    </Tooltip>
+
                 ) : <div className={classes.hopContainer}>{showHops}</div>
                 }
 
@@ -113,7 +141,6 @@ const Dummy2 = ({currentStep, btnDesc}) => {
                     isValid={true}
                     fnToExecute={dummyFn}
                     btnDesc={btnDesc}
-                    spinner={spinner}
                 />
             </div>
         );
@@ -122,4 +149,4 @@ const Dummy2 = ({currentStep, btnDesc}) => {
 const mapStatesToProps = state => ({
     currentStep: state.stepper.activeStep
 });
-export default connect(mapStatesToProps)(Dummy2);
+export default connect(mapStatesToProps)(RouteBuilder);

@@ -1,50 +1,21 @@
-import React, {useState, useEffect} from "react";
-import {Hops} from '../hops'
+import React, {useState} from "react";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MyTable from "./table.component";
-
-const AddHop = ({open, cancel, selectedHop, currentHops}) => {
 
 
-    // const [collection, setCollection] = useState(() => {
-    //
-    //     if (currentHops.length <= 0) {
-    //         return Hops
-    //     } else {
-    //         return []
-    //     }
-    // });
+const ConfigService = ({open, cancel, hop, configService, pos}) => {
+
 
     const handleCancel = () => {
         cancel()
     };
+    console.log(pos)
 
-
-    const triggerFiltering = () => {
-        let final = [];
-        console.log("currentHops", currentHops);
-        currentHops.map(currentHop => {
-            let temp
-            if (final.length <= 0) {
-                temp = Hops.filter(hop => hop.hopType !== currentHop.hopType);
-                final = [...temp]
-
-            } else {
-                temp = final.filter(hop => hop.hopType !== currentHop.hopType);
-                final = [...temp]
-
-            }
-            return null;
-        });
-        console.log("final", final);
-        return final
-    };
-
+    console.log(hop.serviceContracts[pos])
     return (
         <div>
             <Dialog
@@ -63,9 +34,7 @@ const AddHop = ({open, cancel, selectedHop, currentHops}) => {
                 <DialogTitle id="alert-dialog-title">{"Select Hop"}</DialogTitle>
                 <form>
                     <DialogContent>
-                        <MyTable collection={currentHops.length > 0 ? triggerFiltering() : Hops}
-                                 selectedHop={selectedHop}
-                                 close={handleCancel}/>
+                        Config serivce
                     </DialogContent>
 
                     <DialogActions>
@@ -78,6 +47,6 @@ const AddHop = ({open, cancel, selectedHop, currentHops}) => {
             </Dialog>
         </div>
     )
-};
+}
 
-export default AddHop;
+export default ConfigService

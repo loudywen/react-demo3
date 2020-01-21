@@ -620,7 +620,7 @@ export const IntegrationScenario = [
                 "type": "GET"
             },
             {
-                Ò
+
                 "rel": "deleteIntegrationScenario",
                 "href": "http://localhost:8080/scenarios/test7/WW/1/1",
                 "media": "application/json;charset=UTF-8",
