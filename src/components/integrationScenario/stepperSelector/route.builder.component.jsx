@@ -7,6 +7,7 @@ import Fab from "@material-ui/core/Fab";
 import AddHop from "./add.hop.component";
 import Hop from "./hop.component";
 import Tooltip from '@material-ui/core/Tooltip';
+import {Hops} from "../hops";
 
 const styles = makeStyles(theme => ({
     parent: {
@@ -86,7 +87,7 @@ const RouteBuilder = ({currentStep, btnDesc}) => {
 
     const configService = () => {
 
-    }
+    };
 
 
     const dummyFn = () => {
@@ -99,6 +100,33 @@ const RouteBuilder = ({currentStep, btnDesc}) => {
         temp.splice(index, 1);
         // console.log("delete temp", temp);
         setHops([...temp])
+    };
+
+
+    const mapToFrom = () => {
+        let newHops = [];
+
+        for (let x = 0; x < hops.length; x++) {
+            let newHop = {...hops[x]};
+            delete newHop["to"];
+            delete newHop["from"];
+            delete newHop["links"];
+            if (x + 1 < Hops.length) {
+                if (hops[x].to[0].componentType === hops[x + 1].from[0].componentType) {
+                    newHop["from"] = hops[x].from[0];
+                    newHop["to"] = hops[x].to[0];
+                    newHop.to.endpoint = hops[x + 1].from[0].endpoint;
+                    newHops.push(newHop)
+                }
+            } else {
+                newHop["from"] = hops[x].from[0];
+                newHop["to"] = hops[x].to[0];
+                newHops.push(newHop)
+            }
+        }
+
+        console.log(JSON.stringify(newHops, null, '\t'));
+        setHops(newHops)
     };
 
     const showHops =
