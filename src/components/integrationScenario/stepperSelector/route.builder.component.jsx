@@ -92,6 +92,7 @@ const RouteBuilder = ({currentStep, btnDesc}) => {
 
     const dummyFn = () => {
         console.log("Done dummy2 Function");
+        mapToFrom()
     };
 
     const deleteHop = (index) => {
@@ -111,7 +112,7 @@ const RouteBuilder = ({currentStep, btnDesc}) => {
             delete newHop["to"];
             delete newHop["from"];
             delete newHop["links"];
-            if (x + 1 < Hops.length) {
+            if (x + 1 < hops.length) {
                 if (hops[x].to[0].componentType === hops[x + 1].from[0].componentType) {
                     newHop["from"] = hops[x].from[0];
                     newHop["to"] = hops[x].to[0];
